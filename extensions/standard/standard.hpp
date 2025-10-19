@@ -342,10 +342,10 @@ inline std::unordered_map<std::string, Value> register_std_libs = {
     // 控制台模块
     // ToDo: not complete
     LAMINA_MODULE("console", LAMINA_VERSION, {
-        LAMINA_FUNC("console_write", console_write),
-        LAMINA_FUNC("console_getch", console_getch),
-        LAMINA_FUNC("console_getlines", console_getlines),
-        LAMINA_FUNC("console_scanf", console_scanf),
-        LAMINA_FUNC("console_clear", console_clear),
+        LAMINA_FUNC("write", console_write),
+        LAMINA_FUNC("getch", console_getch),
+        LAMINA_FUNC("getlines", console_getlines),
+        LAMINA_FUNC("scanf", console_scanf),
+        LAMINA_FUNC("clear", console_clear),
     }),
 };
