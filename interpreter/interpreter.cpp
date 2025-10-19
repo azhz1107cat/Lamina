@@ -344,6 +344,22 @@ Value Interpreter::eval(const ASTNode* node) {
             return LAMINA_NULL;
         }
         const auto& subscript = eval(g_item->params[0].get());
+        
+        // "abc"[0]
+        if (left.is_string() and subscript.is_int()) {
+            const auto& string_ = std::get<std::string>(left.data);
+            Value val;
+            try {
+                val = string_.at(std::get<int>(subscript.data));
+            }
+            catch (const std::out_of_range& e) {
+                L_ERR("Index out of range");
+                return LAMINA_NULL;
+            }
+            return val;
+        }
+
+        // [1,2,3][0]
         if (left.is_array() and subscript.is_int()) {
             const auto& larray_ = std::get<std::vector<Value>>(left.data);
             Value val;
@@ -357,6 +373,7 @@ Value Interpreter::eval(const ASTNode* node) {
             return val;
         }
 
+        // {a=0, b=10}["a"]
         if (left.is_lstruct() and subscript.is_string()) {
             const auto& lstruct_ = std::get<std::shared_ptr<lmStruct>>(left.data);
             const auto& attr_name = std::get<std::string>(subscript.data);
